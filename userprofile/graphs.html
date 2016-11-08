@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyMoney - Graphs</title>
+    <link rel="stylesheet" type="text/css" href="/Capstone2/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="/Capstone2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/Capstone2/css/Site.css">
+    <script src="/Capstone2/js/modernizr-2.8.3.js"></script>
+    <script src="/Capstone2/js/jquery-3.1.1.js"></script>
+    <script src="/Capstone2/js/d3/d3.js"></script>
+    <script src="https://cdn.auth0.com/js/lock/10.5/lock.min.js"></script>
+
+
+
+</head>
+</head>
+<body class="graphs">
+<div id="navbar">
+</div>
+<div id="main-content">
+    <br /> here is our profile
+    <h2>Welcome <span id="nick" class="nickname"></span></h2>
+
+    <br />
+    <h2>Graphs</h2>
+
+    <!-------------Chart        -------------------->
+    <div class="container">
+
+        <div id="chart">
+            <!-- this is where the magic happens-->
+
+        </div>
+    </div>
+    <br />
+
+    <div id="totalBalanceContainer" class="alert-success alert-danger"> $<label id="totalBalance">  </label></div>
+    <!------------ End Chart    ------------------->
+
+    <!-- End of length -->
+
+    <br />
+
+    <div id="transactionContainer" class="container">
+        <div class="row">
+
+            <div class="btn-group" id="trantype" data-toggle="buttons">
+                <div class="col-md-6">
+                    <label class="btn btn-primary active">
+                        <input id="radIncome" type="radio" name="trantype" value="income" autocomplete="off" checked> Income
+                    </label>
+                </div>
+                <div class="col-md-6">
+                    <label class="btn btn-primary">
+                        <input id="radExpense" type="radio" name="trantype" value="expense" autocomplete="off"> Expense
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--            Expense List        -->
+        <div id="expenseList" style="display:none">
+            <div class="row">
+                <div class="col-md-10">
+
+                    <div class="btn-group" data-toggle="buttons" id="category">
+                        <div class="row expenseRad">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    Please select the most accurate type of expense that this is.
+
+                </div>
+
+            </div>
+        </div>
+        <!-- end expense-->
+        <!--            Income List         -->
+        <div id="incomeList">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="btn-group" data-toggle="buttons" id="category">
+                        <div class="row incomeRads">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    Please select the most accurate type of income that this is.
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Get description -->
+        <div class="row">
+            <label>Description</label>
+            <input id="description" type="text" />
+        </div>
+
+
+        <!-- Get an amount-->
+        <div class="row">
+            <label>Amount</label>
+            <input id="amount" type="text" />
+        </div>
+    </div>
+
+
+
+    <button class="btn-custom1" onclick="followTheMoney()">Insert Transaction</button>
+    <br />
+    <!--                                End of transactioms                         -->
+    <!--                                Start of getting parameters for the graph   -->
+    <div id="graphSelectorContainer" class="container-fluid">
+
+        <label>
+            <input name="incomeCB" id="incomeCb" type="checkbox" /> Income
+        </label>
+
+        <div class="row incomeCbs">
+            <!-- lets create check boxes for the user to select what they want in the graphs         -->
+            <script>
+                $.each(incomeCats, function (value, key) {
+
+                    $("#graphSelectorContainer .incomeCbs").append(
+                            " <label> "
+                            + "  <input name='incomeCBList' id='" + value + "Cb' value='"+value+"' type='checkbox' disabled /> " + key
+                            + "</label>"
+                    )
+                });
+            </script>
+        </div>
+
+        <label>
+            <input name="expenseCB" id="expenseCb" type="checkbox" /> Expense
+        </label>
+
+        <div class="row expenseCbs">
+            <script>
+                $.each(expenseCats, function (value, key) {
+
+                    $("#graphSelectorContainer .expenseCbs").append(
+                            " <label> "
+                            + "  <input name='expenseCBList' id='" + value + "Cb' type='checkbox' disabled /> " + key
+                            + "</label>"
+                    )
+                });
+            </script>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid">
+
+    <!-- Lengnth in months-->
+    <div class="row">
+
+        <div class="btn-group" data-toggle="buttons">
+            <div class="col-md-4">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="months" value="1" autocomplete="off" checked> 1 Month
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="btn btn-primary">
+                    <input type="radio" name="months" value="2" autocomplete="off"> 2 Months
+                </label>
+            </div>
+            <div class="col-md-4">
+                <label class="btn btn-primary">
+                    <input type="radio" name="months" value="3" autocomplete="off"> 3 Months
+                </label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <!-- type of chart selection-->
+    <button class="btn-custom1" onclick="makePie()"> Pie Graph</button>
+    <button class="btn-custom1" onclick="makeBar()">Bar Graph</button>
+    <button class="btn-custom1" onclick="loadlogin()">Load Login</button>
+
+    <!-- end of type-->
+    <div></div>
+
+
+</div>
+<footer>
+    <script src="/Capstone2/js/jquery-3.1.1.js"></script>
+    <script src="/Capstone2/js/bootstrap.js"></script>
+    <script src="/Capstone2/js/d3/d3.js"></script>
+    <script src="https://cdn.auth0.com/js/lock/10.4/lock.min.js"></script>
+    <script src="/Capstone2/js/MyScripts/Js.js"></script>
+</footer>
+</body>
+</html>
