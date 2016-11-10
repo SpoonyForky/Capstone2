@@ -4,8 +4,8 @@ var width = 500;
 var height = 500;
 var radius = Math.min(width, height) / 2; // not used just yet
 ///////////// 
-var clientId =
-var domain = 
+var clientId = 'lJkPQODAsLa1imQ7pHVMk12dHPfbY5Wp';
+var domain = 'moneymoney.auth0.com';
 //var lock = new Auth0Lock(clientId, domain);
 
 var incomeCats = {
@@ -18,8 +18,7 @@ var incomeCats = {
 };
 
 var expenseCats = {
-    "need": "Need",
-    "want": "Want",
+    "rent" : "Rent",
     "living": "Living Expense",
     "food": "Food",
     "clothing": "Clothing",
@@ -104,6 +103,7 @@ function makeBar() {
 
     // Get the data and work with it
     var data = getData();
+    data = handleData(data);
     var count = 0;
 
     // x's and y's!
@@ -236,13 +236,12 @@ function followTheMoney() {
 */
 
 function getData() {
-    printTest();
     var returnThis = [];
     $.ajax({
         type: "GET",
-        async: true,
-        //url: "/TestData/expenses.json",
-        url: "http://moneymoney.zapto.org:8080",
+        async: false,
+        url: "/Capstone2/data/expenses.json",
+       // url: "http://moneymoney.zapto.org:8080",
        // data: "",
         dataType: "json",
         success: function (data) {
@@ -261,6 +260,7 @@ function getData() {
 //// Select only these dates
 function transactionsXDaysOld(age, data) {
 
+    console.log("Age : " + age + "data " + data.length);
     var cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - age);
     data = data.filter(function (d) {
@@ -302,14 +302,14 @@ function selectCategory(data, a, b, c, d) {
   
     tempData = data.filter(x=>x.category === a);
     if (b !== null) {
-     
-        tempData.concat(data.filter(x=>x.category === b));
+     printTest();
+        tempData = tempData.concat(data.filter(x=>x.category === b));
     }
     if (c !== null) {
-        tempData.concat(data.filter(x=>x.category === c));
+        tempData =  tempData.concat(data.filter(x=>x.category === c));
     }
     if (d !== null) {
-        tempData.concat(data.filter(x=>x.category === d));
+        tempData =   tempData.concat(data.filter(x=>x.category === d));
     }
    
     console.log(tempData.length);
@@ -318,20 +318,68 @@ function selectCategory(data, a, b, c, d) {
 
 function selectCat(data, a) {
     var tempData = [];
-    $.each(a, function (val) {
-        tempData.concat(data.filter(x=>x.category === val));
+    $.each(a, function (key,val) {
+    tempData =    tempData.concat(data.filter(x=>x.category === val));
     });
-
     return tempData;
 }
-function handleData() {
-    console.log("start of poop");
-    var categores = [];
-    // from here, lets check out which check boxes are clicked
-    $("input:checkbox[name='incomeCBList']:checked").each(function () {
-        console.log($(this).val());
+function selectType(data, a) {
+    var tempData = [];
+    console.log("inside type : " + data + " and a : " + a);
+    $.each(a, function (key,val) {
+        tempData =    tempData.concat(data.filter(x=>x.type === val));
     });
+    return tempData;
+}
 
+function handleData(data) {
+    var categories = [];
+    var types = [];
+    var duration;
+    // categories = $("input:checkbox[name='incomeCBList']:checked").val;
+
+    /*              Type income or expense or both          */
+    if ($("input:checkbox[name='incomeCB']").is(":checked")) {
+        console.log("inside income type   " + $("input:checkbox[name='incomeCB']").val());
+        types.push($("input:checkbox[name='incomeCB']").val());
+
+        $("input:checkbox[name='incomeCBList']:checked").each(function () {
+            var cat = $(this).val();
+            categories.push(cat);
+        });
+    }
+    ;
+    if ($("input:checkbox[name='expenseCB']").is(":checked")) {
+
+        types.push($("input:checkbox[name='expenseCB']").val());
+        $("input:checkbox[name='incomeCBList']:checked").each(function () {
+            var cat = $(this).val();
+            categories.push(cat);
+        });
+    }
+    ;
+    // console.log(types.toString());
+    /*                  Check boxes for Categories                      */
+
+
+    /*                  Duration                        */
+    // if ($("input:radio[name='months']:checked") == true){
+    duration = ($("input:radio[name='months']:checked").val());
+    duration = duration * 30; // lets not worry about specific months just yet
+    //  }
+    console.log("did we start with data? :" + data.length + " and types : " + types.length);
+    if (types.length > 0) {
+
+        var newData = selectType(data, types);
+        console.log("data length type" + newData.length);
+    }
+    if (categories.length > 0) {
+        newData = selectCat(newData, categories);
+        console.log("duration period" + duration + "newData length" + newData.length)
+    }
+    newData = transactionsXDaysOld(duration, newData);
+    console.log("data length age" + newData.length);
+    return (newData);
 }
 
 
@@ -342,6 +390,8 @@ function handleData() {
             Load the navbar
 */
 $('#navbar').load('/Capstone2/nav/navframe.html');
+
+
 /*
             Run on certain pages run these scripts asap
 */
@@ -391,6 +441,26 @@ $(function () {
 
             i = i + 1;
         });
+
+
+        $.each(incomeCats, function (value, key) {
+
+            $("#graphSelectorContainer .incomeCbs").append(
+                " <label> "
+                + "  <input name='incomeCBList' id='" + value + "Cb' value='"+value+"' type='checkbox' disabled /> " + key
+                + "</label>"
+            )
+        });
+
+        $.each(expenseCats, function (value, key) {
+
+            $("#graphSelectorContainer .expenseCbs").append(
+                " <label> "
+                + "  <input name='expenseCBList' id='" + value + "Cb' type='checkbox' disabled /> " + key
+                + "</label>"
+            )
+        });
+        showBalance();
         /* This handles the user profile and balance */
         if (typeof (Storage) !== "undefined") {
             // Code for localStorage/sessionStorage.
@@ -427,7 +497,7 @@ function showBalance() {
         } else if (data[i].type === "expense") {
             balance -= parseFloat(data[i].amount);
         }
-        console.log(balance.toFixed(2));
+       // console.log("this is the balance: " + balance.toFixed(2));
 
     }
 
@@ -543,13 +613,8 @@ function showLoggedIn() {
 
 
 /*
-
-
 Below will be on Depreciated code, on used or were for testing
 All should be commented out
-
-
-
 */
 
 
@@ -557,7 +622,6 @@ All should be commented out
 function printThis(word) {
     console.log(word);
 }
-
 function printTest() {
     console.log("test");
 }

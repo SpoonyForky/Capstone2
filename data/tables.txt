@@ -1,0 +1,43 @@
+Table for accounts
+Accounts : [ {	"username" 	: "name",
+		"firstname" 	: "firstname",
+		"lastname"	: "lastname",
+		"email"		: "email",
+		"password"	: salted pw
+	      }]
+	- Notes pretty standard information
+
+
+
+Table for Bank
+Bank : [{	"username"	: "name",
+		"bankname"	: "name",
+		"balance"	: 222.22
+	]}
+	- Notes we can find the bank info by the server going through table searching by username based on login request and only send back that information
+
+Table for income
+
+Income : [{ 	"username"	: "name",
+		"amount" 	: 400,
+		"description"	: "describe",
+		"date of"	: "yyyy,mm,dd",
+		"reoccur"	: "true" or "false",
+		"interval"	: indays,
+		"type"		: range {"osap","bursary","scholarship", "PT Job", "FT Job", "Loan", "Other"}
+		}]
+
+	- Notes we can find the incomes info by the server going through table searching by username based on login request and only send back that information --- No commas in the amount, no dollar sign - it should back as a number
+	 - Notes in mongodb there is no "range"  it is only data - so the ranges must be created in the apps themselves
+Table for expenses
+
+Expenses : [{ 	"username"	: "name",
+		"amount" 	: 400,
+		"description"	: "describe",
+		"date of"	: "yyyy,mm,dd",
+		"reoccur"	: "true" or "false",
+		"interval"	: indays,
+		"type"		: range {"food","living","shopping","entertainment","school"}
+		}]
+
+	- Notes we can find the expenses info by the server going through table searching by username based on login request and only send back that information
