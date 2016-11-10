@@ -282,39 +282,7 @@ function transactionsLargerThan(amount) {
 function transactionsSmallerThan(amount) {
     return data => data.amount <= amount;
 }
-////////Return expenses
-function selectExpenses() {
-    return data => data.type === "expense";
 
-}
-//////Return income
-function selectIncome() {
-    return data => data.type === "income";
-}
-
-/////Return categories x multiple friggen really gotta test this one eh
-function selectCategory(data, a, b, c, d) {
-    var tempData = [];
-    a = a || null; // this should never be null
-    b = b || null;
-    c = c || null;
-    d = d || null;
-  
-    tempData = data.filter(x=>x.category === a);
-    if (b !== null) {
-     printTest();
-        tempData = tempData.concat(data.filter(x=>x.category === b));
-    }
-    if (c !== null) {
-        tempData =  tempData.concat(data.filter(x=>x.category === c));
-    }
-    if (d !== null) {
-        tempData =   tempData.concat(data.filter(x=>x.category === d));
-    }
-   
-    console.log(tempData.length);
-    return tempData;
-}
 
 function selectCat(data, a) {
     var tempData = [];
@@ -837,4 +805,39 @@ $("#NewUserEmail").focusout(function () {
     $(this).css("background-color", "#FFFFFF");
     validateEmail();
 });
+
+ ////////Return expenses
+ function selectExpenses() {
+ return data => data.type === "expense";
+
+ }
+ //////Return income
+ function selectIncome() {
+ return data => data.type === "income";
+ }
+
+ /////Return categories x multiple friggen really gotta test this one eh
+ function selectCategory(data, a, b, c, d) {
+ var tempData = [];
+ a = a || null; // this should never be null
+ b = b || null;
+ c = c || null;
+ d = d || null;
+
+ tempData = data.filter(x=>x.category === a);
+ if (b !== null) {
+ printTest();
+ tempData = tempData.concat(data.filter(x=>x.category === b));
+ }
+ if (c !== null) {
+ tempData =  tempData.concat(data.filter(x=>x.category === c));
+ }
+ if (d !== null) {
+ tempData =   tempData.concat(data.filter(x=>x.category === d));
+ }
+
+ console.log(tempData.length);
+ return tempData;
+ }
+
 */
