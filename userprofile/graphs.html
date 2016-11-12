@@ -11,10 +11,25 @@
     <script src="/Capstone2/js/jquery-3.1.1.js"></script>
     <script src="/Capstone2/js/d3/d3.js"></script>
     <script src="https://cdn.auth0.com/js/lock/10.5/lock.min.js"></script>
-
-
+    <script src="/Capstone2/js/moment.min.js"></script>
+    <script src="/Capstone2/js/d3/d3-tip.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 </head>
+<style>
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        width: 60px;
+        height: 28px;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+    }
+</style>
 </head>
 <body class="graphs">
 <div id="navbar">
@@ -67,7 +82,7 @@
             <div class="row">
                 <div class="col-md-10">
 
-                    <div class="btn-group" data-toggle="buttons" id="category">
+                    <div class="btn-group" data-toggle="buttons" name="category" id="category">
                         <div class="row expenseRad">
 
                         </div>
