@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Moneymoney.zapto.org" uploadOnCheckin="c160cf9e-9b5c-4417-b515-b050ae9b12f6">
-    <serverData>
-      <paths name="Moneymoney.zapto.org">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-    </serverData>
+  <component name="PublishConfigData" uploadOnCheckin="c160cf9e-9b5c-4417-b515-b050ae9b12f6">
     <option name="myUploadOnCheckinName" value="Moneymoney.zapto.org" />
   </component>
 </project>
