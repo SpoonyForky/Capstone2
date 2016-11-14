@@ -1,4 +1,4 @@
-﻿// Details about how big this chart will be
+﻿﻿// Details about how big this chart will be
 var color = d3.scale.category10(); // Soon, make a range of green colours and red colours
 var width = 500;
 var height = 500;
@@ -695,8 +695,6 @@ $('input:checkbox[name="expenseCB"]').change(function () {
 
     }
 });
-
-asd
 /*
  *
  *   This contains all Auth0Lock code
