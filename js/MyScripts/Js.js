@@ -180,7 +180,7 @@ function makeBar() {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div .html("<span style='font-weight:bold, font-size:15dp'> Description: "+d.desc
+            div.html("<span style='font-weight:bold; font-size:5em; color:#ffffff; background-color:#000000'> Description: "+d.desc
                 + " Amount: " + d.amount+  "</span>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
@@ -505,8 +505,11 @@ function handleData(data) {
         newData = selectCat(newData, categories);
         //console.log("duration period" + duration + "newData length" + newData.length)
     }
-    newData = transactionsXDaysOld(duration, newData);
-    //console.log("data length age" + newData.length);
+    if (duration > 0) {
+
+        newData = transactionsXDaysOld(duration, newData);
+        //console.log("data length age" + newData.length);
+    }
     return (newData);
 }
 
