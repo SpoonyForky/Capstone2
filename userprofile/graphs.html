@@ -42,6 +42,8 @@
     <!-- End of length -->
 
     <br />
+<Label id="transContainer"> Transaction</Label>
+<Label id="graphContainer">Graph</Label>
 
     <div id="transactionContainer" class="container">
         <div class="row">
@@ -110,12 +112,14 @@
             <label>Amount</label>
             <input id="amount" type="text" />
         </div>
+        <button class="btn-custom1" onclick="followTheMoney()">Insert Transaction</button>
+        <br />
+
     </div>
 
 
 
-    <button class="btn-custom1" onclick="followTheMoney()">Insert Transaction</button>
-    <br />
+
     <!--                                End of transactioms                         -->
     <!--                                Start of getting parameters for the graph   -->
     <div id="graphSelectorContainer" class="container-fluid">
@@ -140,41 +144,41 @@
         </div>
 
     </div>
+    <div class="container-fluid">
 
-</div>
-<div class="container-fluid">
+        <!-- Lengnth in months-->
+        <div class="row">
 
-    <!-- Lengnth in months-->
-    <div class="row">
-
-        <div class="btn-group" data-toggle="buttons">
-            <div class="col-md-4">
-                <label class="btn btn-primary active">
-                    <input type="radio" name="months" value="1" autocomplete="off" checked> 1 Month
-                </label>
-            </div>
-            <div class="col-md-4">
-                <label class="btn btn-primary">
-                    <input type="radio" name="months" value="2" autocomplete="off"> 2 Months
-                </label>
-            </div>
-            <div class="col-md-4">
-                <label class="btn btn-primary">
-                    <input type="radio" name="months" value="3" autocomplete="off"> 3 Months
-                </label>
+            <div class="btn-group" data-toggle="buttons">
+                <div class="col-md-4">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="months" value="1" autocomplete="off" checked> 1 Month
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="months" value="2" autocomplete="off"> 2 Months
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="months" value="3" autocomplete="off"> 3 Months
+                    </label>
+                </div>
             </div>
         </div>
+        <br />
+        <br />
+        <!-- type of chart selection-->
+        <button class="btn-custom1" onclick="makePie()"> Pie Graph</button>
+        <button class="btn-custom1" onclick="makeBar()">Bar Graph</button>
+        <!-- end of type-->
+        <div></div>
+
+
     </div>
-    <br />
-    <br />
-    <!-- type of chart selection-->
-    <button class="btn-custom1" onclick="makePie()"> Pie Graph</button>
-    <button class="btn-custom1" onclick="makeBar()">Bar Graph</button>
-    <!-- end of type-->
-    <div></div>
-
-
 </div>
+
 <footer>
     <script src="/Capstone2/js/jquery-3.1.1.js"></script>
     <script src="/Capstone2/js/bootstrap.js"></script>
