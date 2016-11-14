@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{Modernizr-2.6.2, bootstrap-DefinitelyTyped, bootstrap-slider-DefinitelyTyped, bootstrap-switch-DefinitelyTyped, d3-DefinitelyTyped, d3-box-DefinitelyTyped, d3-dsv-DefinitelyTyped, d3-tip-DefinitelyTyped, d3.cloud.layout-DefinitelyTyped, d3.slider-DefinitelyTyped, d3kit-DefinitelyTyped, d3pie-DefinitelyTyped, jQuery UI-1.10.2, jQuery-2.0.0, lock}" />
+    <file url="PROJECT" libraries="{Modernizr-2.6.2, bootstrap-DefinitelyTyped, bootstrap-slider-DefinitelyTyped, bootstrap-switch-DefinitelyTyped, d3-DefinitelyTyped, d3-box-DefinitelyTyped, d3-dsv-DefinitelyTyped, d3-tip-DefinitelyTyped, d3.cloud.layout-DefinitelyTyped, d3.slider-DefinitelyTyped, d3kit-DefinitelyTyped, d3pie-DefinitelyTyped, jQuery UI-1.10.2, jQuery-2.0.0, lock, moment-DefinitelyTyped}" />
+    <includedPredefinedLibrary name="ECMAScript 6" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-﻿﻿// Details about how big this chart will be
+﻿// Details about how big this chart will be
 var color = d3.scale.category10(); // Soon, make a range of green colours and red colours
 var width = 500;
 var height = 500;
@@ -105,6 +105,37 @@ function makeBar() {
     var data = getData();
     data = handleData(data);
     var count = 0;
+
+    // / Create a tool tip
+
+    /*
+     var tip = d3.tip(svg)
+     .attr('class', 'd3-tip')
+     .offset([-10, 0])
+     .html(function(d) {
+     return "<strong>Description: </strong> <span style='color:red'>" + d.desc + "</span>";
+     })
+     svg.call(tip);
+     */
+
+
+    /*                              Work on a tool tip      */
+    /*
+     var tip = d3.select("body")
+     .append("div")
+     .style("position", "absolute")
+     .style("z-index", "10")
+     .style("visibility", "hidden")
+     // .text(function(d){return d.desc});
+     .text(data.map(function(data) {
+     return "<strong>Description:</strong> <span style='color:black'>" + data.desc + "</span>";
+     }));
+     */
+
+    var div = d3.select("body").append("tip")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
 
     // x's and y's!
     x.domain(data.map(function (data) { return data.desc; }));
@@ -260,7 +291,7 @@ function getData() {
 //// Select only these dates
 function transactionsXDaysOld(age, data) {
 
-   // console.log("Age : " + age + "data " + data.length);
+    console.log("Age : " + age + "data " + data.length);
     var cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - age);
     data = data.filter(function (d) {
@@ -298,7 +329,25 @@ function selectType(data, a) {
         tempData =    tempData.concat(data.filter(x=>x.type === val));
     });
     return tempData;
-}
+};
+
+function convertDate(data){
+    $.each(data, function(key, val){
+
+        //var newDate = val["date"].moment().format('D MMM, YYYY');
+        var newDate = new Date(val['date']);
+        //  newDate.setDate(val["date"]);
+        //newDate = Date.parse(val['date']);
+        // newDate.format('DD MM, YYY');
+        //    var day = newDate.getDay();
+        // console.log("key : " + key + " val: " + val["date"]);
+        newDate = newDate.getDay() + "/" +newDate.getMonth() +"/"+newDate.getFullYear();
+        val['date'] = newDate;
+        console.log(newDate);
+        data= data.sort(sortByDateAscending);
+        return data;
+    })
+};
 
 function handleData(data) {
     var categories = [];
@@ -443,30 +492,29 @@ $(function () {
 
         } else {
         }
-    }
-    if ($('body').is('login')) {
+    } if ($('body').is('login')) {
         var btn_login = document.getElementById("login");
         btn_login.addEventListener("click", lock.show());
         init();
     }
-     if ($('body').is('changePw')){
-         var settings = {
-             "async": true,
-             "crossDomain": true,
-             "url": "https://youraccount.auth0.com/dbconnections/change_password",
-             "method": "POST",
-             "headers": {
-                 "content-type": "application/json"
-             },
-             "processData": false,
-             "data": "{\"client_id\": \""+clientId+"\",\"email\": \"\",\"connection\": \"Username-Password-Authentication\"}"
-         }
+})
+if ($('body').is('changePw')){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://youraccount.auth0.com/dbconnections/change_password",
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "processData": false,
+        "data": "{\"client_id\": \""+clientId+"\",\"email\": \"\",\"connection\": \"Username-Password-Authentication\"}"
+    }
 
-         $.ajax(settings).done(function (response) {
-             console.log(response);
-         });}
-    });
-
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    });}
+});
 /*
         Shows the balance of the account on the graphs page
 */
@@ -532,6 +580,7 @@ $("#graphContainer").click(function(){
     $("#transactionContainer").hide();
     $("#graphSelectorContainer").show();
 });
+
 
 /*
 Checkboxes Enable and Disable options based on which box is pressed
