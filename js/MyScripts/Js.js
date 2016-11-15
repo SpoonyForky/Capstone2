@@ -19,6 +19,7 @@ var incomeCats = {
 };
 
 var expenseCats = {
+    "payback":"Pay Back Loan",
     "rent" : "Rent",
     "living": "Living Expense",
     "food": "Food",
@@ -617,10 +618,55 @@ $(function () {
 
         } else {
         }
-    } if ($('body').is('login')) {
+    }/*                 Login Page              */
+    if ($('body').is('.login')) {
         var btn_login = document.getElementById("login");
         btn_login.addEventListener("click", lock.show());
+        /*
+         *
+         *   This contains all Auth0Lock code
+         *
+         */
+        var lock = new Auth0Lock(clientId, domain, {
+            auth: {
+                redirectUrl: 'http://localhost:63343/userprofile/graphs.html',
+                responseType: 'token',
+                params: {
+                    scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+                }
+            }
+        });
+
+// Listening for the authenticated event
+        lock.on("authenticated", function (authResult) {
+            // Use the token in authResult to getProfile() and save it to localStorage
+            lock.getProfile(authResult.idToken, function (error, profile) {
+                if (error) {
+                    // Handle error
+                    return;
+                }
+                console.log("authresult");
+               console.log(authResult.idToken);
+                localStorage.setItem('idToken', authResult.idToken);
+                localStorage.setItem('profile', JSON.stringify(profile));
+            });
+        });
+
+
+        var init = function () {
+            var id_token = localStorage.getItem('idtoken');
+            if (id_token) {
+                console.log("some toke");
+            } else {
+                console.log(" no toke");
+            }
+        };
         init();
+
+    }
+    if ($('body').is('contact'))
+    {
+
     }
 });
 
@@ -698,36 +744,6 @@ $('input:checkbox[name="expenseCB"]').change(function () {
 
     }
 });
-/*
- *
- *   This contains all Auth0Lock code
- *
- */
-var lock = new Auth0Lock(clientId, domain, {
-    auth: {
-        redirectUrl: 'http://localhost:63343/userprofile/graphs.html',
-        responseType: 'token',
-        params: {
-            scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
-        }
-    }
-});
-
-// Listening for the authenticated event
-lock.on("authenticated", function (authResult) {
-    // Use the token in authResult to getProfile() and save it to localStorage
-    lock.getProfile(authResult.idToken, function (error, profile) {
-        if (error) {
-            // Handle error
-            return;
-        }
-        ////console.log("authresult");
-        ////console.log(authResult.idToken);
-        localStorage.setItem('idToken', authResult.idToken);
-        localStorage.setItem('profile', JSON.stringify(profile));
-    });
-});
-
 var token = localStorage.getItem('idToken');
 if (token) {
     //console.log("inside toke");
@@ -735,14 +751,7 @@ if (token) {
 } else {
     //console.log("no token");
 }
-var init = function () {
-    var id_token = localStorage.getItem('idtoken');
-    if (id_token) {
-        //console.log("some toke");
-    } else {
-        //console.log(" no toke");
-    }
-};
+
 
 // Display the user's profile
 function showLoggedIn() {
