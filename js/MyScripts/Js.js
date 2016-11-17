@@ -708,31 +708,37 @@ function showBalance() {
 function showBiggestIncomeSource(data){
 
     var collection = [];
+    var skip;
+    $.each(data, function(key, value) {
+        skip = true;
+        console.log("Data Key : " + value.category + " Value : " + value.amount);
 
-    $.each(data, function(key, value){
-
-        if (collection.length == 0 ){
-            collection.push({category:value['category'],
-                amount:value.amount});
+        if (collection.length == 0) {
+            collection.push({
+                category: value['category'],
+                amount: value.amount
+            });
             console.log(collection);
         }
-
-        $.each(collection, function(colKey, colValue){
-
-            if (value.category == colValue.category){
+        $.each(collection, function (colKey, colValue) {
+            console.log("Collection  Key : " + colValue.category + " Value : " + colValue.amount);
+            if (value.category == colValue.category) {
                 console.log("Frikken match guy yo");
-                colValue.amount = colValue.amount + value.amount;
-
-
-            } else {
-                collection.push({category:value['category'],
-                    amount:value.amount});
+                colValue.amount = parseFloat(colValue.amount) + parseFloat(value.amount);
+                skip = false;
+                return false;
             }
         })
-    })
-    $.each(collection, function(key, value){
-        console.log(key + " : " +  value);
+        if (skip) {
 
+            collection.push({
+                'category': value.category,
+                'amount': value.amount
+            });
+        }
+    })
+     $.each(collection, function(key, value){
+       console.log(" End Values : " + value.category+ " : " +  value.amount);
     })
 };
 
