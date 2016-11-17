@@ -276,8 +276,7 @@ function followTheMoney() {
     //reload the balance on screen
     showBalance();
     //to do possibly update the graph
-};
-
+}
 /*                        User Specific                             */
 /*                      User Specific grabData      */
 function grabData2() {
@@ -310,8 +309,7 @@ function grabData2() {
     //reload the balance on screen
     //   showBalance();
     //to do possibly update the graph
-};
-
+}
 /*                  User Specific Posting Transaction       */
 function userTran() {
 
@@ -325,7 +323,7 @@ function userTran() {
         case "income":
             var categoryString = $('#incomeList input:radio:checked').val();
             break;
-    };
+    }
     var amountString = document.getElementById('amount').value;
     var amountNum = 300;
     var descString = document.getElementById('description').value;
@@ -363,9 +361,7 @@ function userTran() {
     //reload the balance on screen
     showBalance();
     //to do possibly update the graph
-};
-
-
+}
 /*                  End of User Specific                        */
 
 
@@ -398,9 +394,7 @@ function getData() {
     });
 
     return returnThis;
-};
-
-
+}
 //// Select only these dates
 function transactionsXDaysOld(age, data) {
 
@@ -411,30 +405,27 @@ function transactionsXDaysOld(age, data) {
         return new Date(d.date) > cutoffDate;
     });
     return data;
-};
+}
 //////Sort dates
 function sortByDateAscending(a, b) {
     // Dates will be cast to numbers automagically:
     return (new Date(a.date)) - (new Date(b.date));
-};
+}
 //this returns amounts larger than a value
 function transactionsLargerThan(amount) {
     return data => data.amount >= amount;
-};
-
+}
 //this returns amounts less than a value
 function transactionsSmallerThan(amount) {
     return data => data.amount <= amount;
-};
-
-
+}
 function selectCat(data, a) {
     var tempData = [];
     $.each(a, function (key,val) {
         tempData =    tempData.concat(data.filter(x=>x.category === val));
     });
     return tempData;
-};
+}
 function selectType(data, a) {
     var tempData = [];
     //console.log("inside type : " + data + " and a : " + a);
@@ -442,8 +433,7 @@ function selectType(data, a) {
         tempData =    tempData.concat(data.filter(x=>x.type === val));
     });
     return tempData;
-};
-
+}
 function convertDate(data){
     $.each(data, function(key, val){
 
@@ -460,7 +450,7 @@ function convertDate(data){
         data= data.sort(sortByDateAscending);
         return data;
     })
-};
+}
 function handleData(data) {
     var categories = [];
     var types = [];
@@ -477,7 +467,6 @@ function handleData(data) {
             categories.push(cat);
         });
     }
-    ;
     if ($("input:checkbox[name='expenseCB']").is(":checked")) {
 
         types.push($("input:checkbox[name='expenseCB']").val());
@@ -486,7 +475,6 @@ function handleData(data) {
             categories.push(cat);
         });
     }
-    ;
     // //console.log(types.toString());
     /*                  Check boxes for Categories                      */
 
@@ -668,6 +656,17 @@ $(function () {
     {
 
     }
+
+    if ($('body').is('.profile')){
+        if (token = token){
+            //are they signe din? Lets figure that out in a bit
+
+            var data = getData();
+            var collection = showBiggestIncomeSource(data);
+            $('#statistics')
+
+        }
+    }
 });
 
 /* This area is for analysing the data
@@ -702,9 +701,7 @@ function showBalance() {
         $("#totalBalanceContainer").toggleClass("alert-danger", true);
         $("#totalBalanceContainer").toggleClass("alert-success", false);
     }
-};
-
-
+}
 function showBiggestIncomeSource(data){
 
     var collection = [];
@@ -712,7 +709,7 @@ function showBiggestIncomeSource(data){
     $.each(data, function(key, value) {
         skip = true;
         console.log("Data Key : " + value.category + " Value : " + value.amount);
-
+       // value.amount = value.amount.replace(/,/g,"");
         if (collection.length == 0) {
             collection.push({
                 category: value['category'],
@@ -721,14 +718,15 @@ function showBiggestIncomeSource(data){
             console.log(collection);
         }
         $.each(collection, function (colKey, colValue) {
+         //   colValue.amount = colValue.amount.replace(/,/g,"");
             console.log("Collection  Key : " + colValue.category + " Value : " + colValue.amount);
             if (value.category == colValue.category) {
                 console.log("Frikken match guy yo");
-                colValue.amount = parseFloat(colValue.amount) + parseFloat(value.amount);
+                colValue.amount = parseFloat(colValue['amount']) + parseFloat((value['amount'].replace(",","")));
                 skip = false;
                 return false;
             }
-        })
+        });
         if (skip) {
 
             collection.push({
@@ -736,24 +734,13 @@ function showBiggestIncomeSource(data){
                 'amount': value.amount
             });
         }
-    })
+    });
      $.each(collection, function(key, value){
-       console.log(" End Values : " + value.category+ " : " +  value.amount);
-    })
-};
+       console.log(" End Values : " + value.category+ " : " +  parseFloat(value.amount).toFixed(2));
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
+     return collection;
+}
 /*
  *   Lets Set up the form and make sure proper check boxes apear when needed
  Listener are Here
@@ -809,10 +796,7 @@ if (token) {
 function showLoggedIn() {
     var profile = JSON.parse(localStorage.getItem('profile'));
     document.getElementById('nick').textContent = profile.nickname;
-};
-
-
-
+}
 /*
  Below will be on Depreciated code, on used or were for testing
  All should be commented out
@@ -822,12 +806,10 @@ function showLoggedIn() {
 /////////////////           Functions to help test          /////////////////////
 function printThis(word) {
     //console.log(word);
-};
+}
 function printTest() {
     //console.log("test");
-};
-
-
+}
 /////////// Validation for form elements
 /*
  function validateEmail() {

@@ -803,7 +803,7 @@
     "id": "582a4bd7f9dfdcd5b3830f7d",
     "token": 12345,
     "type": "income",
-    "amount": "5,766.29",
+    "amount": "5766.29",
     "desc": "OSAP Payment",
     "category": "OSAP",
     "date": "Saturday, August 27, 2016 12:30 PM"
@@ -812,7 +812,7 @@
     "id": "582a4bd7b4e056af595b448f",
     "token": 12345,
     "type": "income",
-    "amount": "5,525.39",
+    "amount": "5525.39",
     "desc": "OSAP Payment",
     "category": "OSAP",
     "date": "Monday, April 18, 2016 4:49 AM"
@@ -965,7 +965,7 @@
     "id": "582a4bd716a43ed14a0876ad",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Thursday, July 14, 2016 12:42 PM"
@@ -974,7 +974,7 @@
     "id": "582a4bd7d99cc80e219e7c1a",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Sunday, October 30, 2016 11:09 PM"
@@ -983,7 +983,7 @@
     "id": "582a4bd77ca47263e0ba3d41",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Tuesday, June 14, 2016 1:33 AM"
@@ -992,7 +992,7 @@
     "id": "582a4bd77b6ae07cf8bf6b76",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Friday, October 28, 2016 5:14 PM"
@@ -1001,7 +1001,7 @@
     "id": "582a4bd7d7f716113aca45f6",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Monday, January 18, 2016 9:15 AM"
@@ -1010,7 +1010,7 @@
     "id": "582a4bd7c08522a1481628fe",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Wednesday, November 9, 2016 6:33 PM"
@@ -1019,7 +1019,7 @@
     "id": "582a4bd7520cf8215cb8ab53",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Monday, September 19, 2016 5:31 AM"
@@ -1028,7 +1028,7 @@
     "id": "582a4bd7bc48d9545ac3f5ce",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Monday, August 22, 2016 1:20 AM"
@@ -1037,7 +1037,7 @@
     "id": "582a4bd7c024ebe06cd393d6",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Wednesday, February 3, 2016 10:19 PM"
@@ -1046,7 +1046,7 @@
     "id": "582a4bd78e2964c92b033e3c",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Wednesday, August 17, 2016 1:25 PM"
@@ -1055,7 +1055,7 @@
     "id": "582a4bd71f7c406d1db089b1",
     "token": 12345,
     "type": "expense",
-    "amount": 750,
+    "amount": "750",
     "desc": "Rent",
     "category": "Rent",
     "date": "Friday, February 5, 2016 4:59 PM"
