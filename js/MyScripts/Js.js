@@ -646,7 +646,7 @@ $(function () {
                     return;
                 }
                 console.log("authresult");
-               console.log(authResult.idToken);
+                console.log(authResult.idToken);
                 localStorage.setItem('idToken', authResult.idToken);
                 localStorage.setItem('profile', JSON.stringify(profile));
             });
@@ -669,6 +669,9 @@ $(function () {
 
     }
 });
+
+/* This area is for analysing the data
+ * */
 
 /*
  Shows the balance of the account on the graphs page
@@ -700,6 +703,49 @@ function showBalance() {
         $("#totalBalanceContainer").toggleClass("alert-success", false);
     }
 };
+
+
+function showBiggestIncomeSource(data){
+
+    var collection = [];
+
+    $.each(data, function(key, value){
+
+        if (collection.length == 0 ){
+            collection.push({category:value['category'],
+                amount:value.amount});
+            console.log(collection);
+        }
+
+        $.each(collection, function(colKey, colValue){
+
+            if (value.category == colValue.category){
+                console.log("Frikken match guy yo");
+                colValue.amount = colValue.amount + value.amount;
+
+
+            } else {
+                collection.push({category:value['category'],
+                    amount:value.amount});
+            }
+        })
+    })
+    $.each(collection, function(key, value){
+        console.log(key + " : " +  value);
+
+    })
+};
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
