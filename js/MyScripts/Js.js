@@ -521,7 +521,7 @@ function handleData(data) {
  Load the navbar
  */
 $('#navbar').load('/Capstone2/nav/navframe.html');
-
+$('.footer').load('/Capstone2/nav/footer.html');
 
 /*
  Run on certain pages run these scripts asap
@@ -677,7 +677,7 @@ $(function () {
     if ($('body').is('.profile')) {
         if (true) {
             //are they signe din? Lets figure that out in a bit
-
+            showBalance();
             var data = getData();
             var collection = collectTypeCategory(data);
             var newcolor;
