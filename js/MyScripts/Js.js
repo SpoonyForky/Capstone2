@@ -684,15 +684,15 @@ $(function () {
             var action;
             var listvalue;
             /*
-            collection.sort(function(a, b){
-                var nameA=a.type.toLowerCase(), nameB=b.type.toLowerCase();
-                if (nameA < nameB) //sort string ascending
-                    return -1;
-                if (nameA > nameB)
-                    return 1;
-                return 0; //default return value (no sorting)
-            });
-            */
+             collection.sort(function(a, b){
+             var nameA=a.type.toLowerCase(), nameB=b.type.toLowerCase();
+             if (nameA < nameB) //sort string ascending
+             return -1;
+             if (nameA > nameB)
+             return 1;
+             return 0; //default return value (no sorting)
+             });
+             */
             sortType(collection);
             $.each(collection, function (key, value) {
 
@@ -753,6 +753,21 @@ function showBalance() {
         $("#totalBalanceContainer").toggleClass("alert-success", false);
     }
 }
+
+function getTotalIncome() {
+
+
+    var data = getData();
+
+    var totalIncome = 0; // start at 0
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].type === "income") {
+            totalIncome += parseFloat(data[i].amount);
+        }
+    }
+    return totalIncome;
+}
+
 function collectTypeCategory(data){
 
     var collection = [];
@@ -798,6 +813,40 @@ function collectTypeCategory(data){
 }
 
 
+function suggestRent(){
+
+    var data = collectTypeCategory(getData());
+    var totalIncome = getTotalIncome(data);
+    var leftOver;
+    $.each(data, function(key, value){
+        console.log("suggestion value : " + value.category.toLowerCase());
+
+        switch(value.category.toLowerCase()) {
+            case "rent":
+                if (value.amount < (.30 * totalIncome)) {
+                    var rentString = "Good job, your rent is below 30% of your income, this will help maximize your savings";
+
+                    console.log("we got in here 30p is : " + (.3 * totalIncome));
+
+                } else {
+
+                    var rentString = "You are paying more than the suggested 30% of income on your rent. You may want to consider relocating while also keeping the distance to your work/school at a minimum";
+
+                    console.log("we are above : " + (.3 * totalIncome));
+                }
+                break;
+            case "entertainment":
+                break;
+            case "food":
+                break;
+            case "living":
+                break;
+
+
+        }
+
+    });
+}
 
 function findByType() {
     var data = collectTypeCategory(getData());
