@@ -18,6 +18,16 @@
             max-width: 70%;
             margin: auto;
         }
+        div.c-wrapper{
+            width: 80%; /* for example */
+            margin: auto;
+        }
+
+        .carousel-inner > .item > img,
+        .carousel-inner > .item > a > img{
+            width: 100%; /* use this, or not */
+            margin: auto;
+        }
     </style>
 
 </head>
@@ -37,13 +47,19 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img src="/Capstone2/images/Shirin.jpg" alt="Shirin">
-                <div> A little data about Shirin</div>
+                <div class="c-wrapper">
+                    <div class="shirin">
+
+                    </div>
+                </div>
             </div>
 
             <div class="item">
-                <img src="/Capstone2/images/Rob.jpg" alt="Rob">
-                <div> A little data about Rob</div>
+                <div class = "c-wrapper">
+                    <div class="rob">
+
+                    </div>
+                </div>
             </div>
         </div>
 

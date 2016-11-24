@@ -181,7 +181,7 @@ function makeBar() {
             div.transition()
                 .duration(200)
                 .style("opacity", .9);
-            div.html("<span style='font-weight:bold; font-size:5em; color:#ffffff; background-color:#000000'> Description: "+d.desc
+            div.html("<span style='font-weight:bold; font-size:2em; color:#ffffff; background-color:#000000'> Description: "+d.desc
                 + " Amount: " + d.amount+  "</span>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
@@ -381,7 +381,7 @@ function getData() {
         type: "GET",
         async: false,
         url: "/Capstone2/data/expenses.json",
-        //  url: "http://moneymoney.zapto.org:8080",
+        // url: "http://moneymoney.zapto.org:8080",
         // data: "",
         dataType: "json",
         success: function (data) {
@@ -411,6 +411,17 @@ function sortByDateAscending(a, b) {
     // Dates will be cast to numbers automagically:
     return (new Date(a.date)) - (new Date(b.date));
 }
+//Sort by key
+function sortType(data) {
+    data.sort(function (a, b) {
+        var keyA = a.type.toLowerCase(), keyB = b.type.toLowerCase();
+        if (keyA < keyB) //sort string ascending
+            return -1;
+        if (keyA > keyB)
+            return 1;
+        return 0; //default return value (no sorting)
+    })
+};
 //this returns amounts larger than a value
 function transactionsLargerThan(amount) {
     return data => data.amount >= amount;
@@ -526,11 +537,11 @@ $(function () {
 
 
         $("#graphSelectorContainer").hide();
-        $("#transContainer").click(function(){
+        $("#transContainer").click(function () {
             $("#transactionContainer").show();
             $("#graphSelectorContainer").hide();
         });
-        $("#graphContainer").click(function(){
+        $("#graphContainer").click(function () {
             $("#transactionContainer").hide();
             $("#graphSelectorContainer").show();
         });
@@ -578,7 +589,7 @@ $(function () {
 
             $("#graphSelectorContainer .incomeCbs").append(
                 " <label> "
-                + "  <input name='incomeCBList' id='" + value + "Cb' value='"+value+"' type='checkbox' disabled /> " + key
+                + "  <input name='incomeCBList' id='" + value + "Cb' value='" + value + "' type='checkbox' disabled /> " + key
                 + "</label>"
             )
         });
@@ -606,7 +617,8 @@ $(function () {
 
         } else {
         }
-    }/*                 Login Page              */
+    }
+    /*                 Login Page              */
     if ($('body').is('.login')) {
         var btn_login = document.getElementById("login");
         btn_login.addEventListener("click", lock.show());
@@ -652,18 +664,57 @@ $(function () {
         init();
 
     }
-    if ($('body').is('contact'))
-    {
+    if ($('body').is('.contact')) {
+        console.log("wtf did i get here? I should have");
+        $('.shirin').load('/Capstone2/home/individual/Shirin.html');
+        $('.rob').load('/Capstone2/home/individual/Rob.html');
+
+
+
 
     }
 
-    if ($('body').is('.profile')){
-        if (token = token){
+    if ($('body').is('.profile')) {
+        if (true) {
             //are they signe din? Lets figure that out in a bit
 
             var data = getData();
-            var collection = showBiggestIncomeSource(data);
-            $('#statistics')
+            var collection = collectTypeCategory(data);
+            var newcolor;
+            var action;
+            var listvalue;
+            /*
+            collection.sort(function(a, b){
+                var nameA=a.type.toLowerCase(), nameB=b.type.toLowerCase();
+                if (nameA < nameB) //sort string ascending
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
+            */
+            sortType(collection);
+            $.each(collection, function (key, value) {
+
+
+                if (value.type == 'income') {
+                    newcolor = "green";
+                    action = "gained";
+                    listvalue = "#incomeList";
+
+                }
+                if (value.type == 'expense') {
+                    newcolor = "red";
+                    action = "spent";
+                    listvalue = "#spentList";
+                }
+
+
+                $(listvalue).append(
+                    "<li> You have <span style=\"color:"+newcolor +"\" ; >" + action + " $" + parseFloat(value.amount).toFixed(2)
+                    + " </span>On " + value.category
+                    + "</li>");
+            });
 
         }
     }
@@ -702,27 +753,29 @@ function showBalance() {
         $("#totalBalanceContainer").toggleClass("alert-success", false);
     }
 }
-function showBiggestIncomeSource(data){
+function collectTypeCategory(data){
 
     var collection = [];
     var skip;
     $.each(data, function(key, value) {
         skip = true;
-        console.log("Data Key : " + value.category + " Value : " + value.amount);
-       // value.amount = value.amount.replace(/,/g,"");
+        //  console.log("Data Key : " + value.category + " Value : " + value.amount);
+        // value.amount = value.amount.replace(/,/g,"");
         if (collection.length == 0) {
             collection.push({
+                type: value.type,
                 category: value['category'],
                 amount: value.amount
             });
-            console.log(collection);
+            //    console.log(collection);
         }
         $.each(collection, function (colKey, colValue) {
-         //   colValue.amount = colValue.amount.replace(/,/g,"");
-            console.log("Collection  Key : " + colValue.category + " Value : " + colValue.amount);
+            //   colValue.amount = colValue.amount.replace(/,/g,"");
+            //   console.log("Collection  Key : " + colValue.category + " Value : " + colValue.amount);
             if (value.category == colValue.category) {
-                console.log("Frikken match guy yo");
+                // console.log("Frikken match guy yo");
                 colValue.amount = parseFloat(colValue['amount']) + parseFloat((value['amount'].replace(",","")));
+                colValue.counter = colValue.counter + 1;
                 skip = false;
                 return false;
             }
@@ -730,17 +783,92 @@ function showBiggestIncomeSource(data){
         if (skip) {
 
             collection.push({
+                'type': value.type,
                 'category': value.category,
-                'amount': value.amount
+                'amount': value.amount,
+                'counter' : 1
             });
         }
     });
-     $.each(collection, function(key, value){
-       console.log(" End Values : " + value.category+ " : " +  parseFloat(value.amount).toFixed(2));
-    });
+    //$.each(collection, function(key, value){
+    // console.log(" End Type : " + value.type +" Values : " + value.category+ " : " +  parseFloat(value.amount).toFixed(2) + "Counter : " + value.counter);
+    //});
 
-     return collection;
+    return collection;
 }
+
+
+
+function findByType() {
+    var data = collectTypeCategory(getData());
+
+    var singleItem = [
+        {
+            income: {
+                category: "",
+                amount: "0",
+                counter: ""
+            },
+            expense: {
+                category: "",
+                amount: "0",
+                counter: ""
+            }
+        }
+    ];
+
+    var max = Math.max.apply(null,
+        Object.keys(data).map(function(e) {
+            return data[e]['amount'];
+        }));
+    console.log("this is max : " + max);
+    /*
+     $.each(data, function (dType, dCategory) {
+     console.log("inside each : dCat.Type : " + dCategory.type + " dCat : " + dCategory.category + " dcatAmount : " + dCategory.amount);
+
+     switch (dCategory.type) {
+
+     case 'income':
+     //  console.log("inside income each : dCat.Type : " + dCategory.type + " dCat : " + dCategory.category + " dcatAmount : " + dCategory.amount);
+
+     if (parseFloat(dCategory.amount) > parseFloat(singleItem.income.amount)) {
+     singleItem.income.category = dCategory.category;
+     singleItem.income.amount = dCategory.amount;
+     singleItem.income.counter = dCategory.counter;
+     }
+     break;
+     case 'expense':
+     //   console.log("inside  expense each : dCat.Type : " + dCategory.type + " dCat : " + dCategory.category + " dcatAmount : " + dCategory.amount);
+     var amount = +(dCategory.amount);
+     console.log("inside expense : " + amount);
+
+     console.log("inside expense single item : " + +(singleItem['expense'].amount));
+     /*  if (+(dCategory.amount) > +(singleItem.expense.amount)) {
+     *//*
+     if ( amount > singleItem['expense'].amount){
+     console.log("inside if expense");
+     singleItem.expense.category = dCategory.category;
+     singleItem.expense.amount = dCategory.amount;
+     singleItem.expense.counter = dCategory.counter;
+     }
+
+     break;
+     default:
+     break;
+
+     }
+     });
+
+     console.log("Income  Category : " + singleItem['income'].category  + " Amount : " + singleItem.income.amount);
+     console.log("Expense Category : " + singleItem['expense'].category + " Amount : " + singleItem.expense.amount);
+
+
+     return singleItem;
+     */
+}
+
+
+
 /*
  *   Lets Set up the form and make sure proper check boxes apear when needed
  Listener are Here
