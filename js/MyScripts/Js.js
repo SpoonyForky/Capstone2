@@ -743,7 +743,7 @@ function showBalance() {
     }
 
     //// Set the text and adjust the css
-    $("#totalBalance").html(balance.toFixed(2));
+    $("#totalBalance").html(balance.toFixed(2) + " So if we are up to date this is what your bank account should currently look like!");
     if (balance > 0) {
         $("#totalBalanceContainer").toggleClass("alert-danger", false);
         $("#totalBalanceContainer").toggleClass("alert-success", true);
