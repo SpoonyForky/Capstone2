@@ -658,6 +658,7 @@ $(function () {
     }
     if ($('body').is('.profile')) {
         if (true) {
+            suggestRent();
             //are they signe din? Lets figure that out in a bit
             showBalance();
             var data = getData();
@@ -790,11 +791,10 @@ function suggestRent(){
 
     var data = collectTypeCategory(getData());
     var totalIncome = getTotalIncome(data);
-    var leftOver;
-    var rentString;
-    var entertainmentstring;
-    var livingstring;
-    var foodString;
+    var comment;
+    var color;
+    var good = "<span style='color:\'red\'>"+ "Good job! "+ "</span>";
+    var bad = "Oh no!";
 
     $.each(data, function(key, value){
         console.log("suggestion value : " + value.category.toLowerCase());
@@ -802,47 +802,61 @@ function suggestRent(){
         switch(value.category.toLowerCase()) {
             case "rent":
                 if (value.amount < (.30 * totalIncome)) {
-                     rentString = "Good job, your rent is below 30% of your income, this will help maximize your savings";
+                    comment = "Good job, your rent is below 30% of your income, this will help maximize your savings";
+                    color= "green";
                 } else {
-                     rentString = "You are paying more than the suggested 30% of income on your rent. You may want to consider relocating while also keeping the distance to your work/school at a minimum";
-
-                    console.log("Rent above : " + (.3 * totalIncome));
+                    comment = "You are paying more than the suggested 30% of income on your rent. You may want to consider relocating while also keeping the distance to your work/school at a minimum";
+                    color="red";
                 }
+
+                $("#rent").append("<p><span style=\"color:"+color +"\" ; >" + comment + "</span></p>");
                 break;
             case "entertainment":
                 if (value.amount < (.10 * (totalIncome/12))) {
-                    entertainmentstring = "Good job you are below 10% on average monthly entertainment expense";
-                    console.log("Food 14p is : " + (.10 * (totalIncome/12)));
+                    comment = "Good job you are below 10% on average monthly entertainment expense";
+                    color= "green";
                 } else {
-                     entertainmentstring = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
-
+                    comment = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
+                    color="red";
                 }
+                $("#entertainment").append("<p><span style=\"color:"+color +"\" ; >" + comment + "</span></p>");
 
                 break;
             case "food":
                 if (value.amount < (.14 * (totalIncome/12))) {
-                     foodString = "Good job you are below 15% on average monthly food expense";
-                    console.log("Food 14p is : " + (.14 * (totalIncome/12)));
+                    comment = "Good job you are below 15% on average monthly food expense";
+                    color= "green";
                 } else {
-                     foodString = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
+                    color="red";
+                    comment = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
                 }
+                $("#food").append("<p><span style=\"color:"+color +"\" ; >" + comment + "</span></p>");
                 break;
             case "living expense":
-                    if ( value.amount < (.05 * (totalIncome))){
-                        livingstring = "Good job, you are below the 5% annual living expenses of annual income - this includes things such as cable tv, internet,  gas, and phone expenses";
-                    } else {
-                        livingstring = " You may be spending too much money on some living expenses - consider changing internet plans, dropping a tv subscription, or changing mobile phone providers. "
-                    }
-                    break;
+                if ( value.amount < (.05 * (totalIncome))){
+                    comment = "Good job, you are below the 5% annual living expenses of annual income - this includes things such as cable tv, internet,  gas, and phone expenses";
+                    color= "green";
+                } else {
+                    color="red";
+                    comment = " You may be spending too much money on some living expenses - consider changing internet plans, dropping a tv subscription, or changing mobile phone providers. "
+                }
+                $("#living").append("<p><span style=\"color:"+color +"\" ; >" + comment + "</span></p>");
+
+                break;
             case "transportation":
+                if ( value.amount < (.10 *(totalIncome))){
+                    comment = "Good job, you are spending less than 10% on transportation costs"
+                    color= "green";
+                } else {
+                    color="red";
+                    comment = "You might be spending too much on transportation costs";
+                }
+                $("#transportation").append("<p><span style=\"color:"+color +"\" ; >" + comment + "</span></p>");
+
                 break;
         }
-            });
-    console.log(rentString);
-    console.log(entertainmentstring);
-    console.log(foodString);
-    console.log(livingstring)
-
+        /*eating out 5-10  transportation 15-20*/
+    });
 }
 
 function findByType() {
