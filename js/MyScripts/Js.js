@@ -5,7 +5,8 @@ var height = 500;
 var radius = Math.min(width, height) / 2; // not used just yet
 
 /////////////
-var clientId = 'lJkPQODAsLa1imQ7pHVMk12dHPfbY5Wp';
+var clientId = "epRgjVF15vGKLJEL8EjVGV241IImwDW2";
+
 var domain = 'moneymoney.auth0.com';
 //var lock = new Auth0Lock(clientId, domain);
 
@@ -24,7 +25,8 @@ var expenseCats = {
     "living": "Living Expense",
     "food": "Food",
     "clothing": "Clothing",
-    "entertainment": "Entertainment"
+    "entertainment": "Entertainment",
+    "transportation": "Transportation"
 };
 
 ////////////////////////////////        PIE NATION              ////////////////
@@ -460,6 +462,7 @@ function convertDate(data){
         //console.log(newDate);
         data= data.sort(sortByDateAscending);
         return data;
+
     })
 }
 function handleData(data) {
@@ -532,10 +535,7 @@ $(function () {
     } else {
         // Sorry! No Web Storage support..
     }
-
     if ($('body').is('.graphs')) {
-
-
         $("#graphSelectorContainer").hide();
         $("#transContainer").click(function () {
             $("#transactionContainer").show();
@@ -545,7 +545,6 @@ $(function () {
             $("#transactionContainer").hide();
             $("#graphSelectorContainer").show();
         });
-
         /* Load the category and buttons */
         var i = 0;
         $.each(expenseCats, function (key, value) {
@@ -580,22 +579,16 @@ $(function () {
                     + "value='" + key + "'autocomplete='off'>" + value
                     + " </label></div>");
             }
-
             i = i + 1;
         });
-
-
         $.each(incomeCats, function (value, key) {
-
             $("#graphSelectorContainer .incomeCbs").append(
                 " <label> "
                 + "  <input name='incomeCBList' id='" + value + "Cb' value='" + value + "' type='checkbox' disabled /> " + key
                 + "</label>"
             )
         });
-
         $.each(expenseCats, function (value, key) {
-
             $("#graphSelectorContainer .expenseCbs").append(
                 " <label> "
                 + "  <input name='expenseCBList' id='" + value + "Cb' type='checkbox' disabled /> " + key
@@ -608,13 +601,11 @@ $(function () {
             // Code for localStorage/sessionStorage.
             if (localStorage.getItem("ValidUser")) {
                 showBalance();
-
             } else {
                 // probably invalid user
                 //  $('body').empty();
                 //   $('body').innerHtml = "Please log in";
             }
-
         } else {
         }
     }
@@ -636,7 +627,6 @@ $(function () {
                 }
             }
         });
-
 // Listening for the authenticated event
         lock.on("authenticated", function (authResult) {
             // Use the token in authResult to getProfile() and save it to localStorage
@@ -651,8 +641,6 @@ $(function () {
                 localStorage.setItem('profile', JSON.stringify(profile));
             });
         });
-
-
         var init = function () {
             var id_token = localStorage.getItem('idtoken');
             if (id_token) {
@@ -662,18 +650,12 @@ $(function () {
             }
         };
         init();
-
     }
     if ($('body').is('.contact')) {
         console.log("wtf did i get here? I should have");
         $('.shirin').load('/Capstone2/home/individual/Shirin.html');
         $('.rob').load('/Capstone2/home/individual/Rob.html');
-
-
-
-
     }
-
     if ($('body').is('.profile')) {
         if (true) {
             //are they signe din? Lets figure that out in a bit
@@ -695,34 +677,26 @@ $(function () {
              */
             sortType(collection);
             $.each(collection, function (key, value) {
-
-
                 if (value.type == 'income') {
                     newcolor = "green";
                     action = "gained";
                     listvalue = "#incomeList";
-
                 }
                 if (value.type == 'expense') {
                     newcolor = "red";
                     action = "spent";
                     listvalue = "#spentList";
                 }
-
-
                 $(listvalue).append(
                     "<li> You have <span style=\"color:"+newcolor +"\" ; >" + action + " $" + parseFloat(value.amount).toFixed(2)
                     + " </span>On " + value.category
                     + "</li>");
             });
-
         }
     }
 });
-
 /* This area is for analysing the data
  * */
-
 /*
  Shows the balance of the account on the graphs page
  */
@@ -739,7 +713,6 @@ function showBalance() {
             balance -= parseFloat(data[i].amount);
         }
         // //console.log("this is the balance: " + balance.toFixed(2));
-
     }
 
     //// Set the text and adjust the css
@@ -818,34 +791,58 @@ function suggestRent(){
     var data = collectTypeCategory(getData());
     var totalIncome = getTotalIncome(data);
     var leftOver;
+    var rentString;
+    var entertainmentstring;
+    var livingstring;
+    var foodString;
+
     $.each(data, function(key, value){
         console.log("suggestion value : " + value.category.toLowerCase());
 
         switch(value.category.toLowerCase()) {
             case "rent":
                 if (value.amount < (.30 * totalIncome)) {
-                    var rentString = "Good job, your rent is below 30% of your income, this will help maximize your savings";
-
-                    console.log("we got in here 30p is : " + (.3 * totalIncome));
-
+                     rentString = "Good job, your rent is below 30% of your income, this will help maximize your savings";
                 } else {
+                     rentString = "You are paying more than the suggested 30% of income on your rent. You may want to consider relocating while also keeping the distance to your work/school at a minimum";
 
-                    var rentString = "You are paying more than the suggested 30% of income on your rent. You may want to consider relocating while also keeping the distance to your work/school at a minimum";
-
-                    console.log("we are above : " + (.3 * totalIncome));
+                    console.log("Rent above : " + (.3 * totalIncome));
                 }
                 break;
             case "entertainment":
+                if (value.amount < (.10 * (totalIncome/12))) {
+                    entertainmentstring = "Good job you are below 10% on average monthly entertainment expense";
+                    console.log("Food 14p is : " + (.10 * (totalIncome/12)));
+                } else {
+                     entertainmentstring = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
+
+                }
+
                 break;
             case "food":
+                if (value.amount < (.14 * (totalIncome/12))) {
+                     foodString = "Good job you are below 15% on average monthly food expense";
+                    console.log("Food 14p is : " + (.14 * (totalIncome/12)));
+                } else {
+                     foodString = "You are paying more than the suggested 15% of income on your food. You may want to consider using frozen or canned, buying on sale, using coupons, avoid shopping when you are hungry, choosing store or value brand. ";
+                }
                 break;
-            case "living":
+            case "living expense":
+                    if ( value.amount < (.05 * (totalIncome))){
+                        livingstring = "Good job, you are below the 5% annual living expenses of annual income - this includes things such as cable tv, internet,  gas, and phone expenses";
+                    } else {
+                        livingstring = " You may be spending too much money on some living expenses - consider changing internet plans, dropping a tv subscription, or changing mobile phone providers. "
+                    }
+                    break;
+            case "transportation":
                 break;
-
-
         }
+            });
+    console.log(rentString);
+    console.log(entertainmentstring);
+    console.log(foodString);
+    console.log(livingstring)
 
-    });
 }
 
 function findByType() {
