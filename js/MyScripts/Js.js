@@ -1066,7 +1066,6 @@ function printTest() {
  //function CreateUser() {
  //    /// here we need to grab all those values from the form
  //    ///  we can verify the data first then send off to the db
-
  //    //email
  //    //firstname
  //    //lastname
