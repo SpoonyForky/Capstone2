@@ -26,7 +26,7 @@ var expenseCats = {
     "food": "Food",
     "clothing": "Clothing",
     "entertainment": "Entertainment",
-    "transportation": "Transportation"
+    "transportation": "Transportation",
 };
 
 ////////////////////////////////        PIE NATION              ////////////////
@@ -343,6 +343,7 @@ function userTran() {
         "category": categoryString,
         "date": date
     };
+    console.log(expenseObject);
     $.ajax({
         type: "POST",
         async: false,
@@ -558,7 +559,7 @@ $(function () {
                 $("#category").append(" <div class='col-lg-4'>"
                     + "<label class='btn btn-primary'> "
                     + "<input type='radio' name='category'"
-                    + "value='" + key + "'autocomplete='off'>" + value
+                    + "value='" + key + "'autocomplete='off' checked='true'>" + value
                     + " </label></div>");
             }
 
@@ -570,7 +571,7 @@ $(function () {
                 $("#incomeList .incomeRads").append(" <div class='col-lg-4'>"
                     + "<label class='btn btn-primary active'> "
                     + "<input type='radio' name='category'"
-                    + "value='" + key + "'autocomplete='off' checked>" + value
+                    + "value='" + key + "'autocomplete='off'>" + value
                     + " </label></div>");
             } else {
                 $("#incomeList .incomeRads").append(" <div class='col-lg-4'>"
@@ -583,19 +584,20 @@ $(function () {
         });
         $.each(incomeCats, function (value, key) {
             $("#graphSelectorContainer .incomeCbs").append(
-                " <label> "
-                + "  <input name='incomeCBList' id='" + value + "Cb' value='" + value + "' type='checkbox' disabled /> " + key
+                " <label class='btn btn-info btn-sm'> "
+                + "<input name='incomeCBList' id='" + value + "Cb' value='" + value + "' type='checkbox' disabled /> " + key
                 + "</label>"
             )
         });
         $.each(expenseCats, function (value, key) {
             $("#graphSelectorContainer .expenseCbs").append(
-                " <label> "
+                " <label class='btn btn-info btn-sm'> "
                 + "  <input name='expenseCBList' id='" + value + "Cb' type='checkbox' disabled /> " + key
                 + "</label>"
             )
         });
         showBalance();
+        makeBar();
         /* This handles the user profile and balance */
         if (typeof (Storage) !== "undefined") {
             // Code for localStorage/sessionStorage.
